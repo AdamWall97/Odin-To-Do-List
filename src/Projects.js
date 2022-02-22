@@ -43,6 +43,9 @@ const projectFactory = (projectTitle,projectDescription) => {
 
 };
 
+
+
+
 const projects = (() => {
 
     var projectlist = {};
@@ -67,3 +70,7 @@ const projects = (() => {
     }
 
 })();
+
+
+
+export { projects, projectFactory}
