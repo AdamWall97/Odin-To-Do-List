@@ -4,11 +4,9 @@ function moveItem(arr,itemIndex,targetIndex){
     return arr;
 }
 
-
-
 const projectFactory = (projectTitle,projectDescription) => {
 
-    var todolist = {};
+    var todolist = [];
     const getProjectTitle = () => projectTitle;
     const getProjectDescription = () => projectDescription;
 
@@ -26,7 +24,7 @@ const projectFactory = (projectTitle,projectDescription) => {
     }
     //Removes todo object from to do list using todoFind
     const todoComplete = (todotitle,tododescrip) => {
-        todolist.splice(todoFind(todotitle,todoscrip),1);
+        todolist.splice(todoFind(todotitle,tododescrip),1);
     }
     //finds todo Item using title and description
     const todoFind = (todotitle,tododescrip) => {
@@ -38,36 +36,79 @@ const projectFactory = (projectTitle,projectDescription) => {
         return "No value found"; 
     }
 
+    const removeProjectFac = () => {
+        projects.removeProject(getProjectTitle(),getProjectDescription());
+        projects.showProjects();
 
-    return 
+    }
+
+
+
+    return{getProjectTitle,getProjectDescription, removeProjectFac}
 
 };
 
-
-
-
 const projects = (() => {
 
-    var projectlist = {};
-
+    var projectlist = [];
 
     const createProject = (newProject) => {
         projectlist.push(newProject);
+        showProjects();
+    }
+    const removeProject = (title,description) => {
+        projectlist.splice(projectFind(title,description),1);
+    }
+    const showProjects = () => {
+        clearProjects(); //delete old Divs
+        for (let i = 0;i < projectlist.length;i++){
+            createProjectDiv(i);
+            createToDoButton(i);
+            createDeleteButton(i);
+        }
+    }
+    const clearProjects = () => {
+        const Projects = document.querySelectorAll(".Project");
+        Projects.forEach(project => {
+            project.remove();
+        });
+    } 
+
+    const createProjectDiv = (i) => {
+        var newProject =  document.createElement("div");
+        newProject.className = "Project";
+        newProject.id = "Project " + i;
+        newProject.innerText = projectlist[i].getProjectTitle();
+        document.getElementById("Project Section").appendChild(newProject);
     }
 
-
-    const removeProject = (project) => {
-        projectlist.splice(projectFind(project.getProjectTitle,project.getProjectDescription))
+    const createToDoButton = (i) => {
+       var newButton = document.createElement("button");
+       newButton.id = projectlist[i].getProjectTitle() + " Create ToDo";
+       newButton.innerText= "Add To Do Item";
+       newButton.addEventListener("click",projectlist[i].todoCreate);
+       document.getElementById("Project " + i).append(newButton);
     }
-
+    const createDeleteButton = (i) => {
+        var newButton = document.createElement("button");
+        newButton.id = projectlist[i].getProjectTitle()+ " Delete";
+        newButton.innerText= "Delete Project";
+        newButton.addEventListener("click",projectlist[i].removeProjectFac);
+        document.getElementById("Project " + i).append(newButton);
+     }
     const projectFind = (projtitle,projdescrip) => {
         for(var i = 0;i < projectlist.length;i++){
-            if (projectlist[i].getProjectTitle == projtitle && projectlist[i].getProjectDescription == projdescrip){
+            if (projectlist[i].getProjectTitle() == projtitle && projectlist[i].getProjectDescription() == projdescrip){
                 return i;
             }
         }
         return "No value found"; 
     }
+
+
+
+
+    return {createProject, removeProject,showProjects}
 
 })();
 
