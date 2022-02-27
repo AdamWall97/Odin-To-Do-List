@@ -7,10 +7,15 @@ const todosFactory = (title,description,dueDate,priority,notes) => {
 
     const setTitle = (inTitle) => inTitle = title;
     const setDescription = (inDescription) => inDescription = description;
-    const setDueDate = (inDuedate) => indueDate = dueDate;
+    const setDueDate = (inDuedate) => {
+        
+    }
     const setNotes = (inNotes) => inNotes = notes;
+
+
 
 
     return 
 
 };
+
